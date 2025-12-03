@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Participants</title>
+    <style>
+        /* --- EXACT COLORS EXTRACTED FROM YOUR FILE --- */
+        :root {
+            --name-blue: rgb(28, 69, 135);
+            --title-gray: rgb(102, 102, 102);
+            --text-dark: rgb(67, 67, 67);
+        }
+
+        /* --- PAGE SETUP (print-precision) --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        @page { size: Letter; margin: 0.5in; }
+
+        body {
+            background-color: #f0f0f0; /* subtle gray so white page stands out */
+            font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 0.4in 0.25in; 
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Make the page container an exact Letter sheet so HTML view matches PDF size */
+        .page {
+            background-color: white;
+            width: 8.5in; /* exact Letter width */
+            height: 11in; /* exact Letter height */
+            margin: 0; /* centered by body flex */
+            display: block;
+            position: relative;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        /* --- MAIN CONTENT --- */
+        .content {
+            width: 100%;
+            padding: 0.55in 0.6in; /* precise inner margins similar to PDF */
+        }
+
+        /* --- HEADER LAYOUT (Simplified two-row header) --- */
+        .header-container {
+            display: grid;
+            /* left: flexible column for logo/title, right: fixed column for info box */
+            grid-template-columns: 1fr 2.0in;
+            grid-template-rows: auto auto; /* top row: logo + small label, bottom row: title + info box */
+            align-items: start;
+            gap: 0.18in 0.18in; /* larger vertical spacing between the two header rows */
+            margin-bottom: 0.12in;
+            row-gap: 0.18in;
+        }
+
+        .logo {
+            width: 120px; /* logo size */
+            height: auto;
+            display: block;
+        }
+
+        .top-right-label {
+            font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            font-weight: 700;
+            font-size: 10pt;
+            color: #333;
+            text-align: right;
+            align-self: center;
+        }
+
+        .event-info {
+            width: 100%;
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            font-size: 10pt;
+            color: var(--text-dark);
+            line-height: 1.26;
+            text-align: left;
+        }
+
+        .event-title {
+            font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            color: var(--name-blue);
+            font-size: 20pt; /* smaller, per request */
+            font-weight: 800;
+            line-height: 1.02;
+            text-align: center; /* centered title */
+            padding-top: 0.04in; /* extra space from the logo */
+            margin: 0;
+            white-space: normal;
+        }
+
+        .info-box {
+            border-left: 4px solid var(--name-blue);
+            padding-left: 0.14in;
+            padding-top: 0.02in;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .info-block { margin-bottom: 8px; }
+
+        .info-block { margin-bottom: 8px; }
+        .info-label { font-weight: bold; display: block; }
+
+        /* --- LIST TITLE --- */
+        .list-header {
+            color: var(--text-dark);
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            font-size: 12pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: none; /* keep a single rule (header-divider) below the title */
+            padding-bottom: 6px;
+            margin-bottom: 0.0in;
+            letter-spacing: 0.6px;
+        }
+
+        /* thin divider line directly under the header area to match PDF (single hr) */
+        .header-divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin-top: 0.12in; /* extra space above the rule */
+            margin-bottom: 0.28in; /* larger gap to participants */
+        }
+
+        /* --- 3-COLUMN FLOW --- */
+        .participants-grid {
+            column-count: 3;
+            column-gap: 0.42in; /* gap between columns */
+            -webkit-column-gap: 0.42in;
+            -moz-column-gap: 0.42in;
+        }
+
+        /* --- PARTICIPANT STYLING --- */
+        .person {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 0.12in;
+            break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+            -moz-column-break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .person-name {
+            color: var(--name-blue);
+            font-family: 'Georgia', serif;
+            font-size: 11pt;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .person-details {
+            color: var(--title-gray);
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            font-size: 9pt;
+            line-height: 1.25;
+        }
+
+        /* --- PRINT SETTINGS --- */
+        @media print {
+            body { background: none; padding: 0; }
+            .page { width: 100%; height: auto; box-shadow: none; margin: 0; }
+            html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page">
+        <div class="content">
+            <div class="header-container">
+                <div class="header-top-left">
+                    {% if logo_path %}
+                    <img src="{{ logo_path }}" alt="logo" class="logo" />
+                    {% endif %}
+                </div>
+
+                <div class="header-top-right">
+                    {% if top_right_label %}
+                    <div class="top-right-label">{{ top_right_label }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="header-bottom-left">
+                    <div class="event-title">{{ event_title }}</div>
+                </div>
+
+                <div class="header-bottom-right">
+                    <div class="info-box event-info">
+                        <div class="info-block">
+                            <span class="info-label">{{ event_date }}</span>
+                            {{ event_time }}
+                        </div>
+                        <div class="info-block">
+                            <span class="info-label">{{ venue_name }}</span>
+                            {{ venue_address | replace('\n', '<br>') | safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-divider" aria-hidden="true"></div>
+
+            <div class="list-header">List of Participants</div>
+
+            <div class="participants-grid">
+                {% for person in participants %}
+                <div class="person">
+                    <div class="person-name">{{ person.name }}</div>
+                    <div class="person-details">{{ person.details }}</div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

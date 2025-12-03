@@ -1,0 +1,112 @@
+/* --- Global Reset & Page Setup --- */
+@page {
+    size: Letter; /* Standard US Letter size */
+    margin: 0.5in 0.5in; /* Tighter margins to fit 3 columns */
+}
+
+body {
+    /* Exact font match for the body text based on PDF analysis */
+    font-family: "Times New Roman", Times, serif;
+    font-size: 10pt;
+    color: #000;
+    line-height: 1.3;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Header Section --- */
+.header-container {
+    width: 100%;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #000; /* Solid black line under header */
+    padding-bottom: 10px;
+}
+
+.top-row {
+    font-family: "Arial", sans-serif; /* Sans-serif for top labels */
+    font-size: 9pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #444;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.off-record {
+    color: #D00000; /* Deep red for warning text */
+}
+
+h1 {
+    font-family: "Arial", sans-serif;
+    font-size: 18pt;
+    color: #0056b3; /* The specific blue from the file */
+    margin: 0 0 5px 0;
+    font-weight: 700;
+}
+
+.sub-header {
+    font-size: 11pt;
+    font-style: italic;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.meta-info {
+    font-family: "Arial", sans-serif;
+    font-size: 9pt;
+    color: #555;
+}
+
+/* --- The 3-Column Content Layout --- */
+
+.section-title {
+    font-family: "Arial", sans-serif;
+    font-size: 12pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 2px;
+}
+
+.participant-list {
+    /* This creates the 3-column structure */
+    column-count: 3;
+    column-gap: 25px; /* Space between columns */
+    column-fill: auto; /* Balances height */
+    width: 100%;
+}
+
+.person-entry {
+    /* Keeps name/title/org together */
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 12px;
+    font-size: 9.5pt;
+    line-height: 1.2;
+}
+
+.name {
+    font-weight: bold;
+    color: #000;
+    display: block;
+}
+
+.title-org {
+    /* Runs title and org together naturally */
+    display: block;
+    color: #333;
+}
+
+/* --- Warning Note (if data is missing) --- */
+.check-note {
+    font-family: "Arial", sans-serif;
+    font-size: 7pt;
+    color: white;
+    background-color: #D00000;
+    padding: 1px 3px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-left: 5px;
+}
